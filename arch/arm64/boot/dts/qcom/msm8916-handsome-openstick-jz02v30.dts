@@ -1,0 +1,108 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+* Copyright (C) 2024 Vasiliy Olekhov <olekhov@gmail.com>
+*
+*/
+
+/dts-v1/;
+#include "msm8916-handsome-openstick-common.dtsi"
+#include "msm8916-modem-qdsp6.dtsi"
+
+/ {
+    model = "Handsome OpenStick JZ02V30";
+    compatible = "handsome,openstick", "qcom,msm8916";
+
+    gpio-keys {
+        compatible = "gpio-keys";
+        #address-cells = <1>;
+        #size-cells = <0>;
+        autorepeat;
+
+        pinctrl-names = "default";
+        pinctrl-0 = <&gpio_keys_default>;
+        label = "GPIO Buttons";
+
+        reset {
+            label = "Restart";
+            gpios = <&tlmm 37 GPIO_ACTIVE_HIGH>;
+            linux,code = <KEY_RESTART>;
+        };
+    };
+
+    gpio-leds {
+        compatible = "gpio-leds";
+
+        pinctrl-names = "default";
+        pinctrl-0 = <&msmgpio_leds>;
+
+        red {
+            label = "red";
+            default-state = "off";
+            gpios = <&tlmm 8 GPIO_ACTIVE_HIGH>;
+            // linux,default-trigger = "heartbeat";
+        };
+
+        green {
+            label = "green";
+            default-state = "off";
+            gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
+        };
+
+        blue {
+            label = "blue";
+            gpios = <&tlmm 7 GPIO_ACTIVE_HIGH>;
+            default-state = "off";
+        };
+
+        sim1_switch_gpio {
+            gpios = <&tlmm 22 GPIO_ACTIVE_HIGH>;
+            label = "sim1_switch_gpio";
+            linux,default-trigger = "none";
+            default-state = "off";
+            retain-state-suspended;
+        };
+
+        sim2_switch_gpio {
+            gpios = <&tlmm 23 GPIO_ACTIVE_HIGH>;
+            label = "sim2_switch_gpio";
+            linux,default-trigger = "none";
+            default-state = "off";
+            retain-state-suspended;
+        };
+
+        sim3_switch_gpio {
+            gpios = <&tlmm 1 GPIO_ACTIVE_HIGH>;
+            label = "sim3_switch_gpio";
+            linux,default-trigger = "none";
+            default-state = "on";
+            retain-state-suspended;
+        };
+
+        sim_hotdet_gpio {
+            gpios = <&tlmm 20 GPIO_ACTIVE_HIGH>;
+            label = "sim_hotdet_gpio";
+            linux,default-trigger = "none";
+            default-state = "off";
+            retain-state-suspended;
+        };
+
+    };
+};
+
+&tlmm {
+    msmgpio_leds: msmgpio_leds {
+        pins = "gpio1","gpio6","gpio7","gpio8","gpio20","gpio22","gpio23";
+        function = "gpio";
+
+        bias-disabled;
+    };
+
+    gpio_keys_default: gpio_keys_default {
+        pins = "gpio37";
+        function = "gpio";
+
+        drive-strength = <8>;
+        input-enable;
+        bias-pull-up;
+    };
+};
