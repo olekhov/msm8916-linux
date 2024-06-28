@@ -31,17 +31,19 @@
         /delete-node/ venus;
 
         mpss_mem: mpss@86800000 {
-            status = "disabled";
-            reg = <0x0 0x86800000 0x0 0x5500000>;
+            status = "okay";
+            reg = <0x0 0x86800000 0x0 0x4e00000>;
             no-map;
         };
 
-        wcnss_mem: wcnss@8df00000 {
-            reg = <0x0 0x8df00000 0x0 0x600000>;
+        wcnss_mem: wcnss@8b600000 {
+            status = "okay";
+            reg = <0x0 0x8b600000 0x0 0x600000>;
             no-map;
         };
 
         venus_mem: venus@8e500000 {
+            status = "okay";
             reg = <0x0 0x8e500000 0x0 0x500000>;
             no-map;
         };
@@ -86,11 +88,6 @@
 
 &sdhc_1 {
     status = "okay";
-
-/*    pinctrl-names = "default", "sleep";
-    pinctrl-0 = <&sdc1_clk_on &sdc1_cmd_on &sdc1_data_on>;
-    pinctrl-1 = <&sdc1_clk_off &sdc1_cmd_off &sdc1_data_off>;
-    */
 };
 
 &sound {
