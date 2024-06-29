@@ -10,6 +10,45 @@
 / {
 	model = "Prolextech JZ02V30 4G Modem stick";
 	compatible = "prolextech,jz02v30", "qcom,msm8916";
+
+	leds {
+		compatible = "gpio-leds";
+
+		pinctrl-0 = <&gpio_leds_default>;
+		pinctrl-names = "default";
+
+		sim1_switch_gpio {
+			gpios = <&tlmm 0x16 0x00>;
+			label = "sim1_switch_gpio";
+			linux,default-trigger = "none";
+			default-state = "off";
+			retain-state-suspended;
+		};
+
+		sim2_switch_gpio {
+			gpios = <&tlmm 0x17 0x00>;
+			label = "sim2_switch_gpio";
+			linux,default-trigger = "none";
+			default-state = "off";
+			retain-state-suspended;
+		};
+
+		sim3_switch_gpio {
+			gpios = <&tlmm 0x01 0x00>;
+			label = "sim3_switch_gpio";
+			linux,default-trigger = "none";
+			default-state = "on";
+			retain-state-suspended;
+		};
+
+		sim_hotdet_gpio {
+			gpios = <&tlmm 0x14 0x00>;
+			label = "sim_hotdet_gpio";
+			linux,default-trigger = "none";
+			default-state = "off";
+			retain-state-suspended;
+		};
+	};
 };
 
 &button_restart {
@@ -28,10 +67,12 @@
 	gpios = <&tlmm 8 GPIO_ACTIVE_HIGH>;
 };
 
+/*
 &mpss {
 	pinctrl-0 = <&sim_ctrl_default>;
 	pinctrl-names = "default";
 };
+*/
 
 &button_default {
 	pins = "gpio37";
@@ -39,17 +80,5 @@
 };
 
 &gpio_leds_default {
-	pins = "gpio6", "gpio7", "gpio8";
-};
-
-/* This selects the external SIM card slot by default */
-&tlmm {
-	sim_ctrl_default: sim-ctrl-default-state {
-		sim-en-pins {
-			pins = "gpio1";
-			function = "gpio";
-			bias-disable;
-			output-high;
-		};
-	};
+	pins = "gpio1", "gpio6", "gpio7", "gpio8", "gpio20", "gpio22", "gpio23";
 };
